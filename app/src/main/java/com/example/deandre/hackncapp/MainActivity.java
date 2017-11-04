@@ -26,6 +26,25 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        arrObj = new ArrayList<>();
+        EventObject event1 = new EventObject();
+        event1.setName("Block Party");
+        event1.setDate("10/11/2017");
+        arrObj.add(event1);
+
+        EventObject event2 = new EventObject();
+        event1.setName("Barbque Lit Day");
+        event1.setDate("10/15/2017");
+        arrObj.add(event2);
+
+        EventObject event3 = new EventObject();
+        event1.setName("Thanksgiving Bash");
+        event1.setDate("11/24/2017");
+        arrObj.add(event3);
+
+
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

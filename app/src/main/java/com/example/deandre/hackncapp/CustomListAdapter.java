@@ -27,6 +27,7 @@ public class CustomListAdapter extends ArrayAdapter{
 
     @NonNull
     @Override
+    
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 
@@ -35,6 +36,7 @@ public class CustomListAdapter extends ArrayAdapter{
             view = inflater.inflate(R.layout.list_layout, parent, false);
 
         }
+
 
 
         return view;
