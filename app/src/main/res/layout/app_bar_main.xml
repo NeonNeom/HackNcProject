@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        app:fabSize="mini"
         app:srcCompat="@drawable/add" />
 
     <android.support.design.widget.FloatingActionButton
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
         android:layout_margin="@dimen/fab_margin"
+        app:fabSize="mini"
         app:layout_anchor="@+id/include2"
         app:backgroundTint="@color/colorPrimary"
         app:layout_anchorGravity="bottom|left"
@@ -43,13 +45,14 @@
         android:id="@+id/searchFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:elevation="0dp"
-        app:fabSize="normal"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="top|center_horizontal"
+
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/colorPrimary"
+        app:elevation="0dp"
+        app:fabSize="normal"
         app:layout_anchor="@+id/include2"
-        app:layout_anchorGravity="top|right"
+        app:layout_anchorGravity="bottom|center_horizontal"
         app:srcCompat="@drawable/search" />
 
 

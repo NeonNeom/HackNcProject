@@ -1,5 +1,7 @@
 package com.example.deandre.hackncapp;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,7 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,11 +26,13 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ArrayList<EventObject> arrObj;
+    ArrayList<EventObject> hold;
+    int x;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        x = 0;
         arrObj = new ArrayList<>();
         EventObject event1 = new EventObject();
         event1.setName("Block Party");
@@ -33,13 +40,13 @@ public class MainActivity extends AppCompatActivity
         arrObj.add(event1);
 
         EventObject event2 = new EventObject();
-        event1.setName("Barbque Lit Day");
-        event1.setDate("10/15/2017");
+        event2.setName("Barbque Lit Day");
+        event2.setDate("10/15/2017");
         arrObj.add(event2);
 
         EventObject event3 = new EventObject();
-        event1.setName("Thanksgiving Bash");
-        event1.setDate("11/24/2017");
+        event3.setName("Thanksgiving Bash");
+        event3.setDate("11/24/2017");
         arrObj.add(event3);
 
 
@@ -69,6 +76,83 @@ public class MainActivity extends AppCompatActivity
         ListView listView = (ListView) findViewById(R.id.listV);
         ArrayAdapter<EventObject> customAdapter = new CustomListAdapter(this, 0 , arrObj);
         listView.setAdapter(customAdapter);
+
+        FloatingActionButton search = (FloatingActionButton) findViewById(R.id.searchFab);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchMethod();
+            }
+        });
+
+
+
+    }
+
+    public void searchMethod(){
+        FloatingActionButton search = (FloatingActionButton) findViewById(R.id.searchFab);
+        EditText searchBar = (EditText)findViewById(R.id.editText);
+        InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        if(x == 0){
+            searchBar.setVisibility(View.VISIBLE);
+            searchBar.requestFocus();
+            imm.showSoftInput(searchBar, InputMethodManager.SHOW_IMPLICIT);
+            search.setImageResource(R.drawable.send);
+            x++;
+        }else if(x == 1){
+            search.setImageResource(R.drawable.search);
+            searchBar.setVisibility(View.INVISIBLE);
+
+            try {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            String s = searchBar.getText().toString().toLowerCase();
+            hold = new ArrayList<>();
+
+            for(int x = 0; x < arrObj.size(); x++){
+                try {
+                    hold.add((EventObject) arrObj.get(x).clone());
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if(!(s.isEmpty())){
+                for(int x = 0; x < hold.size();x++){
+                    if(hold.get(x).getName().toLowerCase().contains(s)){
+
+                        EventObject h = null;
+                        try {
+                            h = (EventObject) hold.get(x).clone();
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                        if (h != null) {
+                            h.setHighlight(2);
+                        }
+                        hold.remove(x);
+                        hold.add(0,h);
+                    }else{
+                        hold.get(x).setHighlight(0);
+                    }
+                }
+                ListView listView = (ListView) findViewById(R.id.listV);
+                ArrayAdapter<EventObject> customAdapter2 = new CustomListAdapter(this, 0 , hold);
+                listView.setAdapter(customAdapter2);
+            }else{
+                ListView listView = (ListView) findViewById(R.id.listV);
+                ArrayAdapter<EventObject> customAdapter = new CustomListAdapter(this, 0 , arrObj);
+                listView.setAdapter(customAdapter);
+            }
+
+
+
+
+            searchBar.setText(null);
+            x = 0;
+        }
 
 
     }
